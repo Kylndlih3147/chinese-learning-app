@@ -20,8 +20,7 @@
 
 ## 📂 Cấu trúc thư mục
 
-```
-ChinesePronunciationApp/
+    ChinesePronunciationApp/
 ├── App.js
 ├── android/
 ├── ios/
@@ -30,57 +29,39 @@ ChinesePronunciationApp/
 ├── screens/
 ├── backend/
 │   └── app.py
-```
 
 ---
 
 ## ▶️ Cài đặt và chạy app (React Native)
 
 ### 1. Cài đặt dependencies:
-```bash
-npm install
-# hoặc
-yarn
-```
+npm install hoặc yarn
 
 ### 2. Cài React Native CLI nếu chưa có:
-```bash
 npm install -g react-native-cli
-```
 
 ### 3. Cài dependencies cho Android (nếu dùng Android Studio):
-```bash
 npx react-native doctor
-```
 
 ### 4. Chạy ứng dụng:
-```bash
 npx react-native run-android
-# hoặc
+hoặc
 npx react-native run-ios
-```
 
 ---
 
 ## ⚙️ Cài đặt backend Flask
 
 ### 1. Di chuyển vào thư mục backend:
-```bash
 cd backend
-```
 
 ### 2. Tạo môi trường ảo và cài dependencies:
-```bash
 python -m venv venv
 source venv/bin/activate  # Hoặc venv\Scripts\activate với Windows
-
 pip install -r requirements.txt
-```
 
 ### 3. Chạy server:
-```bash
 python app.py
-```
 > Server sẽ chạy tại `http://localhost:5000/evaluate`
 
 ---
@@ -88,9 +69,8 @@ python app.py
 ## 🔁 Kết nối frontend và backend
 
 Sửa file `PracticeScreen.js`:
-```js
+
 const response = await fetch('http://<IP máy bạn>:5000/evaluate', { ... });
-```
 > Ví dụ: `http://192.168.1.5:5000/evaluate`
 
 ---
@@ -120,3 +100,6 @@ const response = await fetch('http://<IP máy bạn>:5000/evaluate', { ... });
 ## 📝 License
 
 MIT License.
+# chinese-learning-app
+>>>>>>> 0786e37b55b7d162ac914c4ffffb9b1cfadab351
+
