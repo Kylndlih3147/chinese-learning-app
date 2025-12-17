@@ -1,4 +1,7 @@
-// app/(tabs)/search.tsx - YELLOW THEME (already correct)
+// app/(tabs)/search.tsx - UPDATED WITH SCREENCONTAINER
+import { Button } from "@/components/common/Button";
+import { Card } from "@/components/common/Card";
+import { ScreenContainer } from "@/components/layout/ScreenContainer";
 import { Feather } from "@expo/vector-icons";
 import React from "react";
 import {
@@ -53,91 +56,97 @@ const SEARCHES = ["你好怎么读？", "谢谢怎么写？", "基本问候语",
 
 export default function ExplorerScreen() {
   return (
-    <View style={styles.screen}>
+    <ScreenContainer scrollable={true}>
       {/* Header - YELLOW */}
       <View style={styles.header}>
         <Text style={styles.title}>Explorer</Text>
         <Text style={styles.subtitle}>Discover new lessons</Text>
       </View>
 
-      {/* Search */}
+      {/* Search Box */}
       <View style={styles.searchBox}>
         <Feather name="search" size={20} color="#666" />
         <Text style={styles.searchText}>Search lessons...</Text>
       </View>
 
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}>
-        {/* Featured */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Featured</Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {FEATURED.map((item) => (
-              <TouchableOpacity key={item.id} style={styles.featuredCard}>
-                <View
-                  style={[
-                    styles.featuredIcon,
-                    { backgroundColor: item.color },
-                  ]}>
-                  <Feather name={item.icon as any} size={24} color="#fff" />
-                </View>
-                <Text style={styles.featuredTitle}>{item.title}</Text>
-                <Text style={styles.featuredChinese}>{item.chinese}</Text>
-                <TouchableOpacity style={styles.startBtn}>
-                  <Text style={styles.startBtnText}>Start</Text>
-                </TouchableOpacity>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        </View>
+      {/* Featured Section */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Featured</Text>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.horizontalScroll}>
+          {FEATURED.map((item) => (
+            <Card key={item.id} style={styles.featuredCard}>
+              <View
+                style={[styles.featuredIcon, { backgroundColor: item.color }]}>
+                <Feather name={item.icon as any} size={24} color="#fff" />
+              </View>
+              <Text style={styles.featuredTitle}>{item.title}</Text>
+              <Text style={styles.featuredChinese}>{item.chinese}</Text>
+              <Button
+                title="Start"
+                onPress={() => console.log("Start:", item.title)}
+                variant="secondary"
+                size="small"
+                style={styles.startBtn}
+              />
+            </Card>
+          ))}
+        </ScrollView>
+      </View>
 
-        {/* Categories */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Categories</Text>
-          <View style={styles.categories}>
-            {CATEGORIES.map((cat) => (
-              <TouchableOpacity key={cat.id} style={styles.categoryCard}>
-                <View style={styles.categoryIcon}>
-                  <Feather name={cat.icon as any} size={20} color="#f0c829" />
-                </View>
-                <Text style={styles.categoryTitle}>{cat.title}</Text>
-                <Text style={styles.categoryCount}>{cat.count}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
+      {/* Categories Section */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Categories</Text>
+        <View style={styles.categories}>
+          {CATEGORIES.map((cat) => (
+            <Card key={cat.id} style={styles.categoryCard}>
+              <View style={styles.categoryIcon}>
+                <Feather name={cat.icon as any} size={20} color="#f0c829" />
+              </View>
+              <Text style={styles.categoryTitle}>{cat.title}</Text>
+              <Text style={styles.categoryCount}>{cat.count} lessons</Text>
+            </Card>
+          ))}
         </View>
+      </View>
 
-        {/* Popular */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Popular Searches</Text>
-          <View style={styles.chips}>
-            {SEARCHES.map((text, i) => (
-              <TouchableOpacity key={i} style={styles.chip}>
-                <Feather name="search" size={14} color="#666" />
-                <Text style={styles.chipText}>{text}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
+      {/* Popular Searches Section */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Popular Searches</Text>
+        <View style={styles.chips}>
+          {SEARCHES.map((text, i) => (
+            <TouchableOpacity key={i} style={styles.chip}>
+              <Feather name="search" size={14} color="#666" />
+              <Text style={styles.chipText}>{text}</Text>
+            </TouchableOpacity>
+          ))}
         </View>
-
-        <View style={{ height: 20 }} />
-      </ScrollView>
-    </View>
+      </View>
+    </ScreenContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: "#f8f9fa" },
   header: {
     backgroundColor: "#f0c829",
     paddingTop: 50,
     paddingHorizontal: 20,
     paddingBottom: 30,
     borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
   },
-  title: { fontSize: 32, fontWeight: "bold", color: "#333", marginBottom: 4 },
-  subtitle: { fontSize: 16, color: "#666" },
+  title: {
+    fontSize: 32,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 4,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: "#666",
+  },
 
   searchBox: {
     flexDirection: "row",
@@ -153,12 +162,18 @@ const styles = StyleSheet.create({
     shadowRadius: 12,
     elevation: 4,
   },
-  searchText: { fontSize: 16, color: "#999", marginLeft: 12, flex: 1 },
-
-  scrollContent: {
-    paddingBottom: 40,
+  searchText: {
+    fontSize: 16,
+    color: "#999",
+    marginLeft: 12,
+    flex: 1,
   },
-  section: { paddingHorizontal: 20, marginTop: 30, marginBottom: 10 },
+
+  section: {
+    paddingHorizontal: 20,
+    marginTop: 30,
+    marginBottom: 10,
+  },
   sectionTitle: {
     fontSize: 22,
     fontWeight: "bold",
@@ -166,17 +181,15 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
 
+  horizontalScroll: {
+    paddingRight: 20,
+  },
+
   featuredCard: {
     width: 200,
-    backgroundColor: "#fff",
     borderRadius: 16,
     padding: 16,
     marginRight: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    elevation: 4,
   },
   featuredIcon: {
     width: 50,
@@ -192,14 +205,14 @@ const styles = StyleSheet.create({
     color: "#333",
     marginBottom: 4,
   },
-  featuredChinese: { fontSize: 14, color: "#666", marginBottom: 16 },
-  startBtn: {
-    backgroundColor: "#f0c829",
-    paddingVertical: 10,
-    borderRadius: 12,
-    alignItems: "center",
+  featuredChinese: {
+    fontSize: 14,
+    color: "#666",
+    marginBottom: 16,
   },
-  startBtnText: { color: "#333", fontSize: 14, fontWeight: "600" },
+  startBtn: {
+    marginTop: 8,
+  },
 
   categories: {
     flexDirection: "row",
@@ -209,16 +222,10 @@ const styles = StyleSheet.create({
   },
   categoryCard: {
     width: "48%",
-    backgroundColor: "#fff",
     borderRadius: 16,
     padding: 16,
     alignItems: "center",
     marginBottom: 12,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
   },
   categoryIcon: {
     width: 40,
@@ -235,9 +242,16 @@ const styles = StyleSheet.create({
     color: "#333",
     marginBottom: 4,
   },
-  categoryCount: { fontSize: 12, color: "#666" },
+  categoryCount: {
+    fontSize: 12,
+    color: "#666",
+  },
 
-  chips: { flexDirection: "row", flexWrap: "wrap", gap: 10 },
+  chips: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 10,
+  },
   chip: {
     flexDirection: "row",
     alignItems: "center",
@@ -252,5 +266,8 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 1,
   },
-  chipText: { fontSize: 14, color: "#666" },
+  chipText: {
+    fontSize: 14,
+    color: "#666",
+  },
 });
