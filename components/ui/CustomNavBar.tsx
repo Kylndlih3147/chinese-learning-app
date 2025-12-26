@@ -1,3 +1,4 @@
+// components/CustomNavBar.tsx - DYNAMIC COLOR
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Feather from "@expo/vector-icons/Feather";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
@@ -13,16 +14,25 @@ import Animated, {
 const AnimatedTouchableOpacity =
   Animated.createAnimatedComponent(TouchableOpacity);
 
-const PRIMARY_COLOR = "#130057";
-const SECONDARY_COLOR = "#fff";
+// Tab colors based on route name
+const TAB_COLORS: Record<string, string> = {
+  index: "#130057",
+  search: "#f0c829",
+  analytics: "#4CAF50",
+  wallet: "#2b67ff",
+  profile: "#fa113c",
+};
 
 const CustomNavBar: React.FC<BottomTabBarProps> = ({
   state,
   descriptors,
   navigation,
 }) => {
+  const currentRoute = state.routes[state.index].name;
+  const currentColor = TAB_COLORS[currentRoute] || "#130057";
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: currentColor }]}>
       {state.routes.map((route, index) => {
         if (["_sitemap", "+not-found"].includes(route.name)) return null;
 
@@ -55,19 +65,14 @@ const CustomNavBar: React.FC<BottomTabBarProps> = ({
             onPress={onPress}
             style={[
               styles.tabItem,
-              { backgroundColor: isFocused ? SECONDARY_COLOR : "transparent" },
-            ]}
-          >
-            {getIconByRouteName(
-              route.name,
-              isFocused ? PRIMARY_COLOR : SECONDARY_COLOR
-            )}
+              { backgroundColor: isFocused ? "#fff" : "transparent" },
+            ]}>
+            {getIconByRouteName(route.name, isFocused ? currentColor : "#fff")}
             {isFocused && (
               <Animated.Text
                 entering={FadeIn.duration(200)}
                 exiting={FadeOut.duration(200)}
-                style={styles.text}
-              >
+                style={[styles.text, { color: currentColor }]}>
                 {label as string}
               </Animated.Text>
             )}
@@ -101,10 +106,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: PRIMARY_COLOR,
     width: "80%",
     alignSelf: "center",
-    bottom: 40,
+    bottom: 20,
     borderRadius: 40,
     paddingHorizontal: 12,
     paddingVertical: 15,
@@ -112,6 +116,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.3,
     shadowRadius: 5,
+    elevation: 10,
   },
   tabItem: {
     flexDirection: "row",
@@ -122,9 +127,9 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   text: {
-    color: PRIMARY_COLOR,
     marginLeft: 8,
     fontWeight: "500",
+    fontSize: 12,
   },
 });
 

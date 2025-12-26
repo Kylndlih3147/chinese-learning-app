@@ -1,4 +1,4 @@
-import CustomNavBar from "@/components/CustomNavBar";
+import CustomNavBar from "@/components/ui/CustomNavBar";
 import { Tabs } from "expo-router";
 import React from "react";
 
